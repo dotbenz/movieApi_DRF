@@ -38,7 +38,7 @@ def GetAllMovies(request):
     return Response(response_data, status=status.HTTP_200_OK)
 
 
-@permission_classes([IsAuthenticated])
+#@permission_classes([IsAuthenticated])
 @api_view(['POST'])
 @swagger_auto_schema(
     tags=['Movies'],
@@ -64,7 +64,7 @@ def CreateMovie(request):
     else:
         return Response(serializer.errors, status=400)
     
-@permission_classes([IsAuthenticated])    
+#@permission_classes([IsAuthenticated])    
 @api_view(['DELETE'])
 @cache_page(60 * 15)
 def DeleteMovie(request):
@@ -89,7 +89,7 @@ def GetMovie(request):
         return Response( {'Error': 'The movie does not exist'}, status=400)
     
 @api_view(['PUT'])
-@permission_classes([IsAuthenticated])
+#@permission_classes([IsAuthenticated])
 @cache_page(60 * 15)
 def UpdateMovie(request):
     movie_id = request.data.get('movie_id')
