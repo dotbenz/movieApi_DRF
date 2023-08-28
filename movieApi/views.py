@@ -89,7 +89,7 @@ def GetMovie(request):
         return Response( {'Error': 'The movie does not exist'}, status=400)
     
 @api_view(['PUT'])
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 @cache_page(60 * 15)
 def UpdateMovie(request):
     movie_id = request.data.get('movie_id')
