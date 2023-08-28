@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from .models import Movie
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
@@ -11,6 +11,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+from rest_framework.authentication import BasicAuthentication, TokenAuthentication
 
 
 
@@ -38,7 +39,8 @@ def GetAllMovies(request):
     return Response(response_data, status=status.HTTP_200_OK)
 
 
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
+@authentication_classes([BasicAuthentication, TokenAuthentication])
 @api_view(['POST'])
 @swagger_auto_schema(
     tags=['Movies'],
@@ -64,7 +66,8 @@ def CreateMovie(request):
     else:
         return Response(serializer.errors, status=400)
     
-#@permission_classes([IsAuthenticated])    
+@permission_classes([IsAuthenticated])
+@authentication_classes([BasicAuthentication, TokenAuthentication])
 @api_view(['DELETE'])
 @cache_page(60 * 15)
 def DeleteMovie(request):
@@ -90,6 +93,7 @@ def GetMovie(request):
     
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
+@authentication_classes([BasicAuthentication, TokenAuthentication])
 @cache_page(60 * 15)
 def UpdateMovie(request):
     movie_id = request.data.get('movie_id')
